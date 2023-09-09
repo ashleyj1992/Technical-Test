@@ -20,6 +20,7 @@ namespace Technical_Test.Models
         public string CSURIStem { get; set; }
         public string CSURIQuery { get; set; }
         public string SCStatus { get; set; }
+        public string CSUserAgent { get; set; }
 
         public W3CLogLineItem()
         {
@@ -32,6 +33,7 @@ namespace Technical_Test.Models
             CSURIStem = string.Empty;
             CSURIQuery = string.Empty;
             SCStatus = string.Empty;
+            CSUserAgent = string.Empty;
         }
     }
 }

@@ -43,6 +43,8 @@ namespace Technical_Test.Readers
                         var csUsernameIndex = _log.FieldsDictionary.Single(x => x.Value == "cs-username").Key;
                         var sPortIndex = _log.FieldsDictionary.Single(x => x.Value == "s-port").Key;
                         var csMethodIndex = _log.FieldsDictionary.Single(x => x.Value == "cs-method").Key;
+                        var scStatusIndex = _log.FieldsDictionary.Single(x => x.Value == "sc-status").Key;
+                        var csUserAgentIndex = _log.FieldsDictionary.Single(x => x.Value == "cs(User-Agent)").Key;
                         var csUriQuery = _log.FieldsDictionary.Single(x => x.Value == "cs-uri-query").Key;
                         var csuristemIndex = _log.FieldsDictionary.Single(x => x.Value == "cs-uri-stem").Key;
                         var sIpIndex = _log.FieldsDictionary.Single(x => x.Value == "s-ip").Key;
@@ -60,7 +62,9 @@ namespace Technical_Test.Readers
                             ServerPort = Convert.ToInt32(currentLine.GetWordByIndex(sPortIndex, ' ')),
                             CSURIStem = currentLine.GetWordByIndex(csuristemIndex, ' '), 
                             CSMethod = currentLine.GetWordByIndex(csMethodIndex, ' '), 
-                            CSURIQuery = currentLine.GetWordByIndex(csUriQuery, ' ')
+                            CSURIQuery = currentLine.GetWordByIndex(csUriQuery, ' '), 
+                            CSUserAgent = currentLine.GetWordByIndex(csUserAgentIndex, ' '), 
+                            SCStatus = currentLine.GetWordByIndex(scStatusIndex, ' '),
                         });
                     }
                 }
