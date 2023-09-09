@@ -26,7 +26,10 @@ namespace Technical_Test.Builders
                     CSUsername = x.CSUsername,
                     DateTimeCreated = x.DateTimeCreated,
                     ServerIP = x.ServerIP,
-                    ServerPort = x.ServerPort
+                    ServerPort = x.ServerPort, 
+                    CSURIQuery = x.CSURIQuery, 
+                    CSUserAgent = x.CSUserAgent, 
+                    SCStatus = x.SCStatus
                 })
                 .ToList();
 
