@@ -12,6 +12,8 @@ namespace UnitTests
         [TestMethod]
         public void ValidateReadHeaderInformation()
         {
+            CultureInfo cultureInfo = new CultureInfo("en-US");
+
             var getLogTask = Task.Run(GetTestingLog);
             getLogTask.Wait();
 
@@ -20,6 +22,7 @@ namespace UnitTests
             //Check header information is valid
             Assert.AreEqual(1.0, log.Version);
             Assert.AreEqual("Microsoft HTTP Server API 2.0", log.Software);
+            Assert.AreEqual(DateTime.Parse("2002-05-02 17:42:15", cultureInfo), log.DateTimeCreated);
 
             var fieldsDictionaryTemp = new Dictionary<int, string>
             {
