@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using Technical_Test.Extensions;
 using Technical_Test.Models;
 
@@ -14,10 +7,14 @@ namespace Technical_Test.Readers
     public class W3CLogFileReader : ILogFileReader
     {
         private W3cLog _log;
+        private CultureInfo _selectedCulture;
 
         public W3CLogFileReader()
         {
             _log = new W3cLog();
+
+            //Based on the example data the date time zones are American
+            _selectedCulture = new CultureInfo("en-US");
         }
 
         public async Task<ILog> Read(string fileName)
@@ -35,9 +32,6 @@ namespace Technical_Test.Readers
                 }
 
                 var lineItems = new List<W3CLogLineItem>();
-
-                //Based on the example data the date time zones are American
-                var cultureInfo = new CultureInfo("en-US");
 
                 while (!stream.EndOfStream)
                 {
@@ -59,7 +53,7 @@ namespace Technical_Test.Readers
 
                         lineItems.Add(new W3CLogLineItem
                         {
-                            DateTimeCreated = DateTimeOffset.Parse(dateTimeStr, cultureInfo),
+                            DateTimeCreated = DateTimeOffset.Parse(dateTimeStr, _selectedCulture),
                             ClientIP = currentLine.GetWordByIndex(cipIndex, ' '),
                             CSUsername = currentLine.GetWordByIndex(csUsernameIndex, ' '),
                             ServerIP = currentLine.GetWordByIndex(sIpIndex, ' '),
@@ -84,7 +78,7 @@ namespace Technical_Test.Readers
             {
                 case "#software:":
                     {
-                        _log.Software = line.Remove(0, firstWordOfLine.Length);
+                        _log.Software = line.Remove(0, firstWordOfLine.Length).Trim();
                         break;
                     }
 
@@ -97,20 +91,21 @@ namespace Technical_Test.Readers
                 case "#date:":
                     {
                         var dateTimeStr = $"{line.GetWordByIndex(1, ' ')} {line.GetWordByIndex(2, ' ')}";
-                        //_log.DateTimeCreated = Convert.ToDateTime(line.GetWordByIndex(1, ' '));
-                        _log.DateTimeCreated = DateTimeOffset.Parse(dateTimeStr, new CultureInfo("en-US"));
+                        _log.DateTimeCreated = DateTimeOffset.Parse(dateTimeStr, _selectedCulture);
                         break;
                     }
 
                 case "#fields:":
                     {
                         var list = line.Split(' ').ToList();
+                        //Remove first field name header
                         list.RemoveAt(0);
                         _log.FieldsDictionary = new Dictionary<int, string>();
                         int count = 0;
                         foreach(var item in list)
                         {
-                            _log.FieldsDictionary.Add(count, item);
+                            var value = item.Trim();
+                            _log.FieldsDictionary.Add(count, value);
                             count++;
                         }
                         break;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Technical_Test.DTOs;
-using Technical_Test.Loggers;
+﻿using Technical_Test.DTOs;
 using Technical_Test.Models;
 
 namespace Technical_Test.Builders
@@ -39,14 +33,19 @@ namespace Technical_Test.Builders
             return this;
         }
 
-        public List<W3CLogLineItemDto> GetByRankedHits()
+        public List<W3CLogLineItemDto> GetAllByRankedHitsAsc()
         {
-            var distinctItems = _lineItemDtos
-                .GroupBy(x => x.CSURIStem)
-                .Select(x => x.First())
+            return _lineItemDtos
+                .OrderBy(x => x.HitCount)
                 .ToList();
+        }
 
-            return distinctItems.OrderByDescending(x => x.DateTimeCreated).ThenBy(x => x.HitCount).ToList();
+        public List<W3CLogLineItemDto> GetAllByRankedRecentHitsAsc()
+        {
+            return _lineItemDtos
+                .OrderBy(x => x.HitCount)
+                .ThenBy(x => x.DateTimeCreated)
+                .ToList();
         }
     }
 }
