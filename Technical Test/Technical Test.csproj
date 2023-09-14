@@ -9,12 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Datasets\logdata.log">
+    <None Remove="Datasets\logdata.log" />
+    <None Remove="Datasets\logdataunittest.log" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Datasets\logdata.log">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Datasets\logdataunittest.log">
+    </Content>
+    <Content Include="Datasets\logdataunittest.log">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
 </Project>
